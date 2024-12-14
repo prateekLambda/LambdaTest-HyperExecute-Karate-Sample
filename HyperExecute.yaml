@@ -1,0 +1,45 @@
+---
+version: 0.1
+globalTimeout: 150
+testSuiteTimeout: 150
+testSuiteStep: 150
+runson: linux
+autosplit: true
+retryOnFailure: false
+maxRetries: 5
+concurrency: 10
+runtime:
+  language: java
+  version: 11
+
+cacheKey: '{{ checksum "pom.xml" }}'
+cacheDirectories:
+  - .m2
+background:
+  - mvn clean test -Dtest=LocalRunner -Dmaven.repo.local=./.m2 || true
+report: true
+partialReports:
+  frameworkName: cucumber
+  location: target/karate-reports/
+  type: json
+pre:
+  # Download and install packages in the CACHE_DIR.
+  # Skip execution of the tests in the pre step
+  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+  #- mvn clean test -Dtest=LocalRunner
+
+uploadArtefacts:
+  - name: ExecutionSnapshots
+    path:
+      - target/
+mergeArtifacts: true
+testDiscovery:
+  type: raw
+  mode: static
+  command: snooper  --targetOs=win --featureFilePaths=src/test/java/app --frameWork=java  | sed 's/:.*//' | uniq
+
+scenarioCommandStatusOnly: true
+post:
+  - curl http://localhost:8080/__admin/stop
+
+testRunnerCommand: mvn test -Dtest=MyApiRunner -DFeaturePath="$test" -Dhub=https://prateeks:A8ieqlmhfRKKdxExGteMujRjHkvXOxMEBpcFULupHzUw8L5RLG@hub.lambdatest.com/wd/hub -Dmaven.repo.local=./.m2
