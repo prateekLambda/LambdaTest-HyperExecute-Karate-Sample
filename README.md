@@ -42,12 +42,6 @@ If not signed up, you need to sign up and simultaneously redirected to Gitpod in
    - [Artifacts Management](#artifacts-management)
    - [Test Execution](#test-execution)
 
-* [Matrix Execution with Karate](#matrix-execution-with-testng)
-   - [Core](#core-1)
-   - [Pre Steps and Dependency Caching](#pre-steps-and-dependency-caching-1)
-   - [Post Steps](#post-steps-1)
-   - [Artifacts Management](#artifacts-management-1)
-   - [Test Execution](#test-execution-1)
 
 * [Secrets Management](#secrets-management)
 * [Navigation in Automation Dashboard](#navigation-in-automation-dashboard)
@@ -99,7 +93,7 @@ For more information about auto-split execution, check out the [Auto-Split Getti
 
 ### Core
 
-Auto-split YAML file (*yaml/testng_hyperexecute_autosplit_sample.yaml*) in the repo contains the following configuration:
+Auto-split YAML file (*Hyperexecute.yaml*) in the repo contains the following configuration:
 
 ```yaml
 globalTimeout: 150
@@ -181,8 +175,7 @@ Running the above command on the terminal will give a list of scenarios present 
 The *testRunnerCommand* contains the command that is used for triggering the test. The output fetched from the *testDiscoverer* command acts as an input to the *testRunner* command.
 
 ```yaml
-testRunnerCommand: mvn `-Dmaven.repo.local=$CACHE_DIR `-Dtest=$test
-```
+testRunnerCommand: mvn test -Dtest=MyApiRunner -DFeaturePath="$test" -Dhub=https://<LT_USERNAME>:<LT_ACCESS_KEY>@hub.lambdatest.com/wd/hub -Dmaven.repo.local=./.m2```
 
 ### Artifacts Management
 
@@ -201,11 +194,9 @@ uploadArtefacts:
 
 HyperExecute also facilitates the provision to download the artifacts on your local machine. To download the artifacts, click on Artifacts button corresponding to the associated TestID.
 
-<img width="1425" alt="testng_autosplit_artifacts_1" src="https://user-images.githubusercontent.com/1688653/160457854-5730c0bd-9ce0-483d-b727-f10f148c1c11.png">
 
 Now, you can download the artifacts by clicking on the Download button as shown below:
 
-<img width="1425" alt="testng_autosplit_artefacts_2" src="https://user-images.githubusercontent.com/1688653/160457858-be8f3e89-fe85-4f24-b8ad-5e9570321b3c.png">
 
 ### Test Execution
 
@@ -222,11 +213,6 @@ Run the following command on the terminal to trigger the tests in Java files wit
 
 Visit [HyperExecute Automation Dashboard](https://automation.lambdatest.com/hyperexecute) to check the status of execution
 
-<img width="1414" alt="testng_autosplit_execution" src="https://user-images.githubusercontent.com/1688653/160457854-5730c0bd-9ce0-483d-b727-f10f148c1c11.png">
-
-Shown below is the execution screenshot when the YAML file is triggered from the terminal:
-
-<img width="1412" alt="testng_autosplit_cli1_execution" src="https://user-images.githubusercontent.com/1688653/159758845-acae3fbe-c04f-4c0d-8c20-af39affcc3cd.png">
 
 <img width="1408" alt="testng_autosplit_cli2_execution" src="https://user-images.githubusercontent.com/1688653/159758849-dd181170-b31a-4589-80ac-e0592122a0c9.png">
 
